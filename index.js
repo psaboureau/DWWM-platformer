@@ -79,12 +79,22 @@ function animate() {
   platform.draw();
 
   // Si les touches Q ou D sont enfoncés déplacent le joueur vers la gauche ou la droite
-  if (keys.right.pressed) {
+  // Vérifie également la position du joueur en bloquant sa position en l'empechant d'atteindre les bords de l'écran
+  if (keys.right.pressed && player.position.x <400) {
     player.velocity.x = 5;
-  } else if (keys.left.pressed) {
+  } else if (keys.left.pressed && player.position.x > 100) {
     player.velocity.x = -5;
-  } else {
+  } 
+  else {
     player.velocity.x = 0;
+
+    // Scroll le background dans la direction opposé du joueur si celui ci est au bords de l'écran
+    if (keys.right.pressed) {
+      platform.position.x -= 5
+    } else if (keys.left.pressed) {
+      platform.position.x += 5
+    }
+
   }
 
   // Gère la collision avec les plateformes
