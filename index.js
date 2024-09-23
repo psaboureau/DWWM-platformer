@@ -4,7 +4,7 @@ const c = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-const gravity = 0.1;
+const gravity = 1.5;
 
 class Player {
   constructor() {
@@ -28,30 +28,92 @@ class Player {
 
   update() {
     this.draw();
-    
-    // Apply gravity only if the player is in the air
-    if (this.position.y + this.height + this.velocity.y <= canvas.height) {
-      this.position.y += this.velocity.y;
-      this.velocity.y += gravity; // Increase velocity due to gravity
-    } else {
-      // Stop the player at the bottom
+    this.position.x += this.velocity.x
+    this.position.y += this.velocity.y
 
+
+
+    // Applique la gravité seulement quand le joueur est en l'air
+    if (this.position.y + this.height + this.velocity.y <= canvas.height) {
+      this.velocity.y += gravity; // Tire (pousse) le joueur vers le bas
+    } else {
+      // Arrête le joueur au fond
       this.velocity.y = 0;
-    
     }
   }
 }
 
 const player = new Player();
 
+const keys = {
+    right: {
+      pressed: false
+    }, 
+    left: {
+      pressed: false
+    }
+}
+
+
 function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
   player.update();
+
+    if (keys.right.pressed) {
+      player.velocity.x = 5;
+    } else if (keys.left.pressed) {
+      player.velocity.x = -5;
+    } else {
+      player.velocity.x = 0;
+    }
+
 }
 
 animate();
 
-window.addEventListener('keydown',  ({ keyCode }) => {
-    console.log(keyCode)
-})
+
+// Mouvement du joueur
+window.addEventListener("keydown", ({ keyCode }) => {
+  // console.log(keyCode);
+  switch (keyCode) {
+    case 81:
+      console.log("left");
+      keys.left.pressed = true;
+      break;
+    case 83:
+      console.log("down");
+      break;
+    case 68:
+      console.log("right");
+      keys.right.pressed = true;                                     
+      break;
+    case 90:
+      console.log("up");
+      player.velocity.y -= 20
+      break;
+  }
+});
+
+
+// Mouvement du joueur
+window.addEventListener("keyup", ({ keyCode }) => {
+  // console.log(keyCode);
+  switch (keyCode) {
+    case 81:
+      console.log("left");
+      keys.left.pressed = false;
+      break;
+    case 83:
+      console.log("down");
+      break;
+    case 68:
+      console.log("right");
+      keys.right.pressed = false;                                 
+      break;
+    case 90:
+      console.log("up");
+
+      break;
+  }
+});
