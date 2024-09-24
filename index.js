@@ -1,9 +1,12 @@
+const roadImage = './img/road.png'
+
+
 const canvas = document.querySelector("canvas");
 
 const c = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = 1024;
+canvas.height = 576;
 
 const gravity = 0.5;
 
@@ -44,27 +47,68 @@ class Player {
 
 // Définition d'un classe plateforme avec un position(x, y), un largeur(width) et une hauteur(height)
 class Platform {
-  constructor({ x, y }) {
+  constructor({ x, y, image }) {
     this.position = {
       x,
       y,
     };
-    this.width = 200;
-    this.height = 20;
+    this.width = image.width;
+    this.height = image.height;
+    this.image = image;
   }
 
   draw() {
-    c.fillStyle = "blue";
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    c.drawImage(this.image, this.position.x, this.position.y)
   }
 }
+
+class GenericObject {
+  constructor({ x, y, image }) {
+    this.position = {
+      x,
+      y,
+    };
+    this.width = image.width;
+    this.height = image.height;
+    this.image = image;
+  }
+
+  draw() {
+    c.drawImage(this.image, this.position.x, this.position.y)
+  }
+}
+
+function createImage(imageSrc) {
+  const image = new Image();
+  image.src = imageSrc;
+  return image;
+}
+
+
+const platformImage = createImage(roadImage)
+
+
+
 
 // Instanciate les class Player et Plateform
 const player = new Player();
 const platforms = [
-  new Platform({ x: 200, y: 400 }),
-  new Platform({ x: 500, y: 200 }),
+  // Route au sol
+  new Platform({ x: 0, y: 420, image: platformImage }), 
+  new Platform({ x: 576, y: 420, image: platformImage }), 
+  new Platform({ x: 1152, y: 420, image: platformImage }), 
+  new Platform({ x: 1728, y: 420, image: platformImage })
 ];
+
+// TODO: 
+const genericObjects = [
+  new GenericObject({
+    x: 0,
+    y: 0,
+    image: createImage(roadImage)
+  })
+];
+
 
 const keys = {
   right: {
@@ -81,7 +125,8 @@ let scrollOffset = 0;
 
 function animate() {
   requestAnimationFrame(animate);
-  c.clearRect(0, 0, canvas.width, canvas.height);
+  c.fillStyle = 'white'
+  c.fillRect(0, 0, canvas.width, canvas.height);
   player.update();
   platforms.forEach((platform) => {
     platform.draw();
@@ -116,7 +161,7 @@ function animate() {
     if (
       player.position.y + player.height <= platform.position.y &&
       player.position.y + player.height + player.velocity.y >=
-        platform.position.y &&
+      platform.position.y &&
       player.position.x + player.width >= platform.position.x &&
       player.position.x <= platform.position.x + platform.width
     ) {
