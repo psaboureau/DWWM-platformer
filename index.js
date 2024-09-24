@@ -1,6 +1,10 @@
 const roadImageSrc = './img/road.png'
 const treeImageSrc = './img/tree.png'
 
+const spriteRunLeft = './img/animation/spriteRunLeft'
+const spriteRunRight = './img/animation/spriteRunRight'
+const spriteStandLeft = './img/animation/spriteStandLeft'
+const spriteStandRight = './img/animation/spriteStandRight'
 
 const canvas = document.querySelector("canvas");
 
@@ -63,6 +67,7 @@ class Platform {
   }
 }
 
+// TODO: Special class pour les ParallaxObjects
 class GenericObject {
   constructor({ x, y, image }) {
     this.position = {
@@ -104,8 +109,18 @@ const platforms = [
 
 const genericObjects = [
   new GenericObject({
-    x: 0,
-    y: 0,
+    x: 300,
+    y: 10,
+    image: treeImage
+  }),
+  new GenericObject({
+    x: 10,
+    y: 140,
+    image: treeImage
+  }),
+  new GenericObject({
+    x: 500,
+    y: 180,
     image: treeImage
   })
 ];
@@ -130,7 +145,7 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
   player.update();
 
-  // TODO:
+  
   genericObjects.forEach((genericObject) => {
       genericObject.draw()
   })
@@ -155,11 +170,17 @@ function animate() {
       platforms.forEach((platform) => {
         platform.position.x -= 5;
       });
+      genericObjects.forEach((genericObject) => {
+        genericObject.position.x -=5
+      })
     } else if (keys.left.pressed) {
       scrollOffset -= 5;
       platforms.forEach((platform) => {
         platform.position.x += 5;
       });
+      genericObjects.forEach((genericObject) => {
+        genericObject.position.x +=5
+      })
     }
   }
 
