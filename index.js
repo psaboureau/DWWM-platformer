@@ -1,4 +1,5 @@
-const roadImage = './img/road.png'
+const roadImageSrc = './img/road.png'
+const treeImageSrc = './img/tree.png'
 
 
 const canvas = document.querySelector("canvas");
@@ -85,8 +86,8 @@ function createImage(imageSrc) {
 }
 
 
-const platformImage = createImage(roadImage)
-
+const roadImage = createImage(roadImageSrc)
+const treeImage = createImage(treeImageSrc)
 
 
 
@@ -94,18 +95,18 @@ const platformImage = createImage(roadImage)
 const player = new Player();
 const platforms = [
   // Route au sol
-  new Platform({ x: 0, y: 420, image: platformImage }), 
-  new Platform({ x: 576, y: 420, image: platformImage }), 
-  new Platform({ x: 1152, y: 420, image: platformImage }), 
-  new Platform({ x: 1728, y: 420, image: platformImage })
+  new Platform({ x: 0, y: 420, image: roadImage }), 
+  new Platform({ x: 576, y: 420, image: roadImage }), 
+  new Platform({ x: 1152, y: 420, image: roadImage }), 
+  new Platform({ x: 1728, y: 420, image: roadImage })
 ];
 
-// TODO: 
+
 const genericObjects = [
   new GenericObject({
     x: 0,
     y: 0,
-    image: createImage(roadImage)
+    image: treeImage
   })
 ];
 
@@ -128,6 +129,13 @@ function animate() {
   c.fillStyle = 'white'
   c.fillRect(0, 0, canvas.width, canvas.height);
   player.update();
+
+  // TODO:
+  genericObjects.forEach((genericObject) => {
+      genericObject.draw()
+  })
+
+
   platforms.forEach((platform) => {
     platform.draw();
   });
