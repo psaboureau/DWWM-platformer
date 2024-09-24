@@ -44,10 +44,10 @@ class Player {
 
 // Définition d'un classe plateforme avec un position(x, y), un largeur(width) et une hauteur(height)
 class Platform {
-  constructor() {
+  constructor({ x, y }) {
     this.position = {
-      x: 200,
-      y: 300,
+      x,
+      y,
     };
     this.width = 200;
     this.height = 20;
@@ -61,7 +61,10 @@ class Platform {
 
 // Instanciate les class Player et Plateform
 const player = new Player();
-const platform = new Platform();
+const platforms = [
+  new Platform({ x: 200, y: 400 }),
+  new Platform({ x: 500, y: 200 }),
+];
 
 const keys = {
   right: {
@@ -72,41 +75,58 @@ const keys = {
   },
 };
 
+// Track la distance que le joueur a parcouru pour lancer ou non une condition de victoire
+// Determine la fin du niveau
+let scrollOffset = 0;
+
 function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
   player.update();
-  platform.draw();
+  platforms.forEach((platform) => {
+    platform.draw();
+  });
 
   // Si les touches Q ou D sont enfoncés déplacent le joueur vers la gauche ou la droite
   // Vérifie également la position du joueur en bloquant sa position en l'empechant d'atteindre les bords de l'écran
-  if (keys.right.pressed && player.position.x <400) {
+  if (keys.right.pressed && player.position.x < 400) {
     player.velocity.x = 5;
   } else if (keys.left.pressed && player.position.x > 100) {
     player.velocity.x = -5;
-  } 
-  else {
+  } else {
     player.velocity.x = 0;
 
     // Scroll le background dans la direction opposé du joueur si celui ci est au bords de l'écran
     if (keys.right.pressed) {
-      platform.position.x -= 5
+      scrollOffset += 5;
+      platforms.forEach((platform) => {
+        platform.position.x -= 5;
+      });
     } else if (keys.left.pressed) {
-      platform.position.x += 5
+      scrollOffset -= 5;
+      platforms.forEach((platform) => {
+        platform.position.x += 5;
+      });
     }
-
   }
 
   // Gère la collision avec les plateformes
   // ( collision présente du haut vers le bas mais pas l'inverse)
-  if (
-    player.position.y + player.height <= platform.position.y &&
-    player.position.y + player.height + player.velocity.y >=
-      platform.position.y &&
-    player.position.x + player.width >= platform.position.x &&
-    player.position.x <= platform.position.x + platform.width
-  ) {
-    player.velocity.y = 0;
+  platforms.forEach((platform) => {
+    if (
+      player.position.y + player.height <= platform.position.y &&
+      player.position.y + player.height + player.velocity.y >=
+        platform.position.y &&
+      player.position.x + player.width >= platform.position.x &&
+      player.position.x <= platform.position.x + platform.width
+    ) {
+      player.velocity.y = 0;
+    }
+  });
+
+
+  if (scrollOffset > 2000) {
+    console.log("you win")
   }
 }
 
@@ -151,7 +171,6 @@ window.addEventListener("keyup", ({ keyCode }) => {
       break;
     case 90:
       console.log("up");
-
       break;
   }
 });
