@@ -1,10 +1,8 @@
-const roadImageSrc = './img/road.png'
-const treeImageSrc = './img/tree.png'
 
-const spriteRunLeft = './img/animation/spriteRunLeft'
-const spriteRunRight = './img/animation/spriteRunRight'
-const spriteStandLeft = './img/animation/spriteStandLeft'
-const spriteStandRight = './img/animation/spriteStandRight'
+const spriteRunLeft = './img/animation/spriteRunLeft.png';
+const spriteRunRight = './img/animation/spriteRunRight.png';
+const spriteStandLeft = './img/animation/spriteStandLeft.png';
+const spriteStandRight = './img/animation/spriteStandRight.png';
 
 const canvas = document.querySelector("canvas");
 
@@ -26,16 +24,51 @@ class Player {
       y: 0,
     };
 
-    this.width = 30;
-    this.height = 30;
+    this.width = 66
+    this.height = 150;
+    this.image = createImage(spriteStandRight)
+    this.frames = 0
+    this.sprites = {
+      // Différentes animations et taille de sprite en fonction de l'idle et de la course
+      stand: {
+        right: createImage(spriteStandRight),
+        left: createImage(spriteStandLeft),
+        cropWidth: 177,
+        width: 66
+      },
+      run: {
+        right: createImage(spriteRunRight),
+        left: createImage(spriteRunLeft),
+        cropWidth: 341,
+        width: 127.875
+      }
+    }
+
+
+    this.currentSprite = this.sprites.stand.right;
+    this.currentCropWidth = 177;
   }
 
   draw() {
-    c.fillStyle = "red";
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    c.drawImage(
+      this.currentSprite,
+      this.currentCropWidth * this.frames,
+      0,
+      this.currentCropWidth,
+      400,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height)
   }
 
   update() {
+    this.frames++
+    if (this.frames > 59 && (this.currentSprite === this.sprites.stand.right || this.currentSprite === this.sprites.stand.left)) {
+      this.frames = 0;
+    } else if (this.frames > 29 && (this.currentSprite === this.sprites.run.right || this.currentSprite === this.sprites.run.left)) {
+      this.frames = 0;
+    }
     this.draw();
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
@@ -84,25 +117,30 @@ class GenericObject {
   }
 }
 
+// Création image
+
 function createImage(imageSrc) {
   const image = new Image();
   image.src = imageSrc;
   return image;
 }
+const roadImageSrc = './img/road.png'
+const treeImageSrc = './img/tree.png'
+const bikeImageSrc = './img/bike.png'
 
 
 const roadImage = createImage(roadImageSrc)
 const treeImage = createImage(treeImageSrc)
-
+const bikeImage = createImage(bikeImageSrc)
 
 
 // Instanciate les class Player et Plateform
 const player = new Player();
 const platforms = [
   // Route au sol
-  new Platform({ x: 0, y: 420, image: roadImage }), 
-  new Platform({ x: 576, y: 420, image: roadImage }), 
-  new Platform({ x: 1152, y: 420, image: roadImage }), 
+  new Platform({ x: 0, y: 420, image: roadImage }),
+  new Platform({ x: 576, y: 420, image: roadImage }),
+  new Platform({ x: 1152, y: 420, image: roadImage }),
   new Platform({ x: 1728, y: 420, image: roadImage })
 ];
 
@@ -122,10 +160,25 @@ const genericObjects = [
     x: 500,
     y: 180,
     image: treeImage
+  }),
+  new GenericObject({
+    x: 400,
+    y: 230,
+    image: bikeImage
+  }),
+  new GenericObject({
+    x: 700,
+    y: 280,
+    image: bikeImage
+  }),
+  new GenericObject({
+    x: 900,
+    y: 230,
+    image: bikeImage
   })
 ];
 
-
+let lastKey;
 const keys = {
   right: {
     pressed: false,
@@ -139,21 +192,32 @@ const keys = {
 // Determine la fin du niveau
 let scrollOffset = 0;
 
+
+
+
+
+/*
+
+  ANIMATE
+
+*/
 function animate() {
   requestAnimationFrame(animate);
   c.fillStyle = 'white'
   c.fillRect(0, 0, canvas.width, canvas.height);
-  player.update();
 
-  
+
+
   genericObjects.forEach((genericObject) => {
-      genericObject.draw()
+    genericObject.draw()
   })
 
 
   platforms.forEach((platform) => {
     platform.draw();
   });
+
+  player.update();
 
   // Si les touches Q ou D sont enfoncés déplacent le joueur vers la gauche ou la droite
   // Vérifie également la position du joueur en bloquant sa position en l'empechant d'atteindre les bords de l'écran
@@ -171,7 +235,7 @@ function animate() {
         platform.position.x -= 5;
       });
       genericObjects.forEach((genericObject) => {
-        genericObject.position.x -=5
+        genericObject.position.x -= 5
       })
     } else if (keys.left.pressed) {
       scrollOffset -= 5;
@@ -179,7 +243,7 @@ function animate() {
         platform.position.x += 5;
       });
       genericObjects.forEach((genericObject) => {
-        genericObject.position.x +=5
+        genericObject.position.x += 5
       })
     }
   }
@@ -198,13 +262,59 @@ function animate() {
     }
   });
 
+  // Sprites switching
+  if (
+    keys.right.pressed &&
+    lastKey === 'right' &&
+    player.currentSprite !== player.sprites.run.right) 
+    {
+    player.frames = 1;
+    player.currentSprite = player.sprites.run.right
+    player.currentCropWidth = player.sprites.run.cropWidth
+    player.width = player.sprites.run.width
+  } else if (
+    keys.left.pressed &&
+    lastKey === 'left' &&
+    player.currentSprite !== player.sprites.run.left) 
+    {
+    player.currentSprite = player.sprites.run.left
+    player.currentCropWidth = player.sprites.run.cropWidth
+    player.width = player.sprites.run.width
+  }
+  else if (
+    !keys.left.pressed &&
+    lastKey === 'left' &&
+    player.currentSprite !== player.sprites.stand.left) 
+    {
+    player.currentSprite = player.sprites.stand.left
+    player.currentCropWidth = player.sprites.stand.cropWidth
+    player.width = player.sprites.stand.width
+  }
+  else if (
+    !keys.right.pressed &&
+    lastKey === 'right' &&
+    player.currentSprite !== player.sprites.stand.right) 
+    {
+    player.currentSprite = player.sprites.stand.right
+    player.currentCropWidth = player.sprites.stand.cropWidth
+    player.width = player.sprites.stand.width
+  }
 
+  // Win condition
   if (scrollOffset > 2000) {
     console.log("you win")
   }
 }
 
 animate();
+
+
+
+
+
+
+
+
 
 // Ecoute si les touches ZQSD sont enfoncés
 window.addEventListener("keydown", ({ keyCode }) => {
@@ -213,6 +323,8 @@ window.addEventListener("keydown", ({ keyCode }) => {
     case 81:
       console.log("left");
       keys.left.pressed = true;
+      lastKey = "left"
+
       break;
     case 83:
       console.log("down");
@@ -220,10 +332,11 @@ window.addEventListener("keydown", ({ keyCode }) => {
     case 68:
       console.log("right");
       keys.right.pressed = true;
+      lastKey = "right"
       break;
     case 90:
       console.log("up");
-      player.velocity.y -= 30;
+      player.velocity.y -= 15;
       break;
   }
 });
