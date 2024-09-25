@@ -25,9 +25,10 @@ Player Class
 
 class Player {
   constructor() {
+    this.speed = 10;
     this.position = {
       x: 100,
-      y: 100,
+      y: 270,
     };
     this.velocity = {
       x: 0,
@@ -168,64 +169,8 @@ let bikeImage = createImage(bikeImageSrc)
 let player = new Player();
 
 
-
-
-/*
-
- Platforms
-
-*/
-
-
-let platforms = [
-  new Platform({ x: 0, y: 420, image: roadImage }),
-  new Platform({ x: roadImage.width + 250, y: 420, image: roadImage })
-  
-];
-
-
-/* 
-
-Generic Object
-
-*/
-
-
-let genericObjects = [
-  new GenericObject({
-    x: 300,
-    y: 10,
-    image: treeImage
-  }),
-  new GenericObject({
-    x: 10,
-    y: 140,
-    image: treeImage
-  }),
-  new GenericObject({
-    x: 500,
-    y: 180,
-    image: treeImage
-  }),
-  new GenericObject({
-    x: 400,
-    y: 230,
-    image: bikeImage
-  }),
-  new GenericObject({
-    x: 700,
-    y: 280,
-    image: bikeImage
-  }),
-  new GenericObject({
-    x: 900,
-    y: 230,
-    image: bikeImage
-  })
-];
-
-
-
+let platforms = [];
+let genericObjects = [];
 
 
 
@@ -245,15 +190,9 @@ let scrollOffset = 0;
 
 
 
-
-
-
-
-
 /*
 
-Begin Init
-
+Init
 
 */
 
@@ -267,11 +206,11 @@ bikeImage = createImage(bikeImageSrc)
 
 player = new Player()
 
-/*
+      /*
 
-Init Platforms
+      Init Platforms
 
-*/
+      */
 
 
  platforms = [
@@ -281,11 +220,11 @@ Init Platforms
 ];
 
 
-/* 
+      /* 
 
-Generic Object
+      Init Generic Object
 
-*/
+      */
 
 
 genericObjects = [
@@ -373,9 +312,12 @@ function animate() {
 
   // Player movement
   if (keys.right.pressed && player.position.x < 400) {
-    player.velocity.x = 5;
-  } else if (keys.left.pressed && player.position.x > 100) {
-    player.velocity.x = -5;
+    player.velocity.x = player.speed;
+  } else if (
+    (keys.left.pressed && player.position.x > 100) || 
+ ( keys.left.pressed && scrollOffset === 0 && player.position.x > 0)
+) {
+    player.velocity.x = -player.speed;
   } else {
     player.velocity.x = 0;
 
@@ -384,20 +326,20 @@ function animate() {
 
     // Platform & GenericObject Scrolling
     if (keys.right.pressed) {
-      scrollOffset += 5;
+      scrollOffset += player.speed;
       platforms.forEach((platform) => {
-        platform.position.x -= 5;
+        platform.position.x -= player.speed;
       });
       genericObjects.forEach((genericObject) => {
-        genericObject.position.x -= 5
+        genericObject.position.x -= player.speed;
       })
-    } else if (keys.left.pressed) {
-      scrollOffset -= 5;
+    } else if (keys.left.pressed && scrollOffset > 0) {
+      scrollOffset -= player.speed;
       platforms.forEach((platform) => {
-        platform.position.x += 5;
+        platform.position.x += player.speed;
       });
       genericObjects.forEach((genericObject) => {
-        genericObject.position.x += 5
+        genericObject.position.x += player.speed;
       })
     }
   }
@@ -473,7 +415,7 @@ function animate() {
   }
 
 }
-
+init()
 animate();
 
 
@@ -493,43 +435,37 @@ window.addEventListener("keydown", ({ keyCode }) => {
 
   switch (keyCode) {
     case 81:
-
       keys.left.pressed = true;
       lastKey = "left"
-
       break;
     case 83:
 
       break;
     case 68:
-
       keys.right.pressed = true;
       lastKey = "right"
       break;
     case 90:
-
-      player.velocity.y -= 15;
+      if (player.velocity.y === 0  ) {
+        player.velocity.y -= 14;
+      }
+    
       break;
   }
 });
 
-// Ecoute si les touches ZQSD sont relachés
 window.addEventListener("keyup", ({ keyCode }) => {
 
   switch (keyCode) {
     case 81:
-
       keys.left.pressed = false;
       break;
     case 83:
-
       break;
     case 68:
-
       keys.right.pressed = false;
       break;
     case 90:
-
       break;
   }
 });
