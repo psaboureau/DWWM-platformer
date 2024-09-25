@@ -13,6 +13,16 @@ canvas.height = 576;
 
 const gravity = 0.5;
 
+
+
+/*
+
+Player Class
+
+*/
+
+
+
 class Player {
   constructor() {
     this.position = {
@@ -63,6 +73,8 @@ class Player {
   }
 
   update() {
+
+    // Animation Frame adjustment
     this.frames++
     if (this.frames > 59 && (this.currentSprite === this.sprites.stand.right || this.currentSprite === this.sprites.stand.left)) {
       this.frames = 0;
@@ -73,17 +85,23 @@ class Player {
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
-    // Applique la gravité seulement quand le joueur est en l'air
+    // Gravity
     if (this.position.y + this.height + this.velocity.y <= canvas.height) {
       this.velocity.y += gravity; // Tire (pousse) le joueur vers le bas
-    } else {
-      // Arrête le joueur quand il touche le bas du canvas
-      this.velocity.y = 0;
-    }
+    } 
   }
 }
 
-// Définition d'un classe plateforme avec un position(x, y), un largeur(width) et une hauteur(height)
+
+
+
+/*
+
+Class Definition
+
+*/
+
+
 class Platform {
   constructor({ x, y, image }) {
     this.position = {
@@ -117,7 +135,18 @@ class GenericObject {
   }
 }
 
-// Création image
+
+
+
+
+
+/*
+
+createImage
+
+*/
+
+
 
 function createImage(imageSrc) {
   const image = new Image();
@@ -129,23 +158,40 @@ const treeImageSrc = './img/tree.png'
 const bikeImageSrc = './img/bike.png'
 
 
-const roadImage = createImage(roadImageSrc)
-const treeImage = createImage(treeImageSrc)
-const bikeImage = createImage(bikeImageSrc)
 
 
-// Instanciate les class Player et Plateform
-const player = new Player();
-const platforms = [
-  // Route au sol
+let roadImage = createImage(roadImageSrc)
+let treeImage = createImage(treeImageSrc)
+let bikeImage = createImage(bikeImageSrc)
+
+
+let player = new Player();
+
+
+
+
+/*
+
+ Platforms
+
+*/
+
+
+let platforms = [
   new Platform({ x: 0, y: 420, image: roadImage }),
-  new Platform({ x: 576, y: 420, image: roadImage }),
-  new Platform({ x: 1152, y: 420, image: roadImage }),
-  new Platform({ x: 1728, y: 420, image: roadImage })
+  new Platform({ x: roadImage.width + 250, y: 420, image: roadImage })
+  
 ];
 
 
-const genericObjects = [
+/* 
+
+Generic Object
+
+*/
+
+
+let genericObjects = [
   new GenericObject({
     x: 300,
     y: 10,
@@ -178,6 +224,11 @@ const genericObjects = [
   })
 ];
 
+
+
+
+
+
 let lastKey;
 const keys = {
   right: {
@@ -188,9 +239,108 @@ const keys = {
   },
 };
 
-// Track la distance que le joueur a parcouru pour lancer ou non une condition de victoire
-// Determine la fin du niveau
+// scrollOffset = win condition = player reach end of screen
 let scrollOffset = 0;
+
+
+
+
+
+
+
+
+
+/*
+
+Begin Init
+
+
+*/
+
+
+
+function init() {
+
+ roadImage = createImage(roadImageSrc)
+ treeImage = createImage(treeImageSrc)
+bikeImage = createImage(bikeImageSrc)
+
+player = new Player()
+
+/*
+
+Init Platforms
+
+*/
+
+
+ platforms = [
+  new Platform({ x: 0, y: 420, image: roadImage }),
+  new Platform({ x: roadImage.width + 250, y: 420, image: roadImage })
+  
+];
+
+
+/* 
+
+Generic Object
+
+*/
+
+
+genericObjects = [
+  new GenericObject({
+    x: 300,
+    y: 10,
+    image: treeImage
+  }),
+  new GenericObject({
+    x: 10,
+    y: 140,
+    image: treeImage
+  }),
+  new GenericObject({
+    x: 500,
+    y: 180,
+    image: treeImage
+  }),
+  new GenericObject({
+    x: 400,
+    y: 230,
+    image: bikeImage
+  }),
+  new GenericObject({
+    x: 700,
+    y: 280,
+    image: bikeImage
+  }),
+  new GenericObject({
+    x: 900,
+    y: 230,
+    image: bikeImage
+  })
+];
+
+
+scrollOffset = 0;
+
+
+
+}
+
+/*
+
+End Init
+
+
+*/
+
+
+
+
+
+
+
 
 
 
@@ -200,18 +350,18 @@ let scrollOffset = 0;
 
   ANIMATE
 
+
 */
+
+
 function animate() {
   requestAnimationFrame(animate);
   c.fillStyle = 'white'
   c.fillRect(0, 0, canvas.width, canvas.height);
 
-
-
   genericObjects.forEach((genericObject) => {
     genericObject.draw()
   })
-
 
   platforms.forEach((platform) => {
     platform.draw();
@@ -219,8 +369,9 @@ function animate() {
 
   player.update();
 
-  // Si les touches Q ou D sont enfoncés déplacent le joueur vers la gauche ou la droite
-  // Vérifie également la position du joueur en bloquant sa position en l'empechant d'atteindre les bords de l'écran
+
+
+  // Player movement
   if (keys.right.pressed && player.position.x < 400) {
     player.velocity.x = 5;
   } else if (keys.left.pressed && player.position.x > 100) {
@@ -228,7 +379,10 @@ function animate() {
   } else {
     player.velocity.x = 0;
 
-    // Scroll le background dans la direction opposé du joueur si celui ci est au bords de l'écran
+
+
+
+    // Platform & GenericObject Scrolling
     if (keys.right.pressed) {
       scrollOffset += 5;
       platforms.forEach((platform) => {
@@ -248,8 +402,10 @@ function animate() {
     }
   }
 
-  // Gère la collision avec les plateformes
-  // ( collision présente du haut vers le bas mais pas l'inverse)
+
+
+
+  // Collision Detection
   platforms.forEach((platform) => {
     if (
       player.position.y + player.height <= platform.position.y &&
@@ -262,6 +418,9 @@ function animate() {
     }
   });
 
+  
+  
+  
   // Sprites switching
   if (
     keys.right.pressed &&
@@ -300,10 +459,19 @@ function animate() {
     player.width = player.sprites.stand.width
   }
 
+  
+  
   // Win condition
   if (scrollOffset > 2000) {
     console.log("you win")
   }
+
+
+  // Lose condition
+  if (player.position.y > canvas.height ) {
+    init();
+  }
+
 }
 
 animate();
@@ -316,26 +484,30 @@ animate();
 
 
 
-// Ecoute si les touches ZQSD sont enfoncés
+/*
+
+Keys Listener
+
+*/
 window.addEventListener("keydown", ({ keyCode }) => {
-  // console.log(keyCode);
+
   switch (keyCode) {
     case 81:
-      console.log("left");
+
       keys.left.pressed = true;
       lastKey = "left"
 
       break;
     case 83:
-      console.log("down");
+
       break;
     case 68:
-      console.log("right");
+
       keys.right.pressed = true;
       lastKey = "right"
       break;
     case 90:
-      console.log("up");
+
       player.velocity.y -= 15;
       break;
   }
@@ -343,21 +515,21 @@ window.addEventListener("keydown", ({ keyCode }) => {
 
 // Ecoute si les touches ZQSD sont relachés
 window.addEventListener("keyup", ({ keyCode }) => {
-  // console.log(keyCode);
+
   switch (keyCode) {
     case 81:
-      console.log("left");
+
       keys.left.pressed = false;
       break;
     case 83:
-      console.log("down");
+
       break;
     case 68:
-      console.log("right");
+
       keys.right.pressed = false;
       break;
     case 90:
-      console.log("up");
+
       break;
   }
 });
