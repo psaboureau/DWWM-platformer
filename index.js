@@ -157,6 +157,7 @@ function createImage(imageSrc) {
 const roadImageSrc = './img/road.png'
 const treeImageSrc = './img/tree.png'
 const bikeImageSrc = './img/bike.png'
+const roadBackgroundImageSrc = './img/road_background.png'
 
 
 
@@ -164,13 +165,13 @@ const bikeImageSrc = './img/bike.png'
 let roadImage = createImage(roadImageSrc)
 let treeImage = createImage(treeImageSrc)
 let bikeImage = createImage(bikeImageSrc)
-
+let roadBackgroundImage = createImage(roadBackgroundImageSrc)
 
 let player = new Player();
 
 
 let platforms = [];
-let genericObjects = [];
+let genericObjects = []; 
 
 
 
@@ -203,6 +204,7 @@ function init() {
  roadImage = createImage(roadImageSrc)
  treeImage = createImage(treeImageSrc)
 bikeImage = createImage(bikeImageSrc)
+roadBackgroundImage = createImage(roadBackgroundImageSrc)
 
 player = new Player()
 
@@ -228,6 +230,16 @@ player = new Player()
 
 
 genericObjects = [
+  new GenericObject({
+    x:0,
+    y: 380,
+    image: roadBackgroundImage
+  }),  
+  new GenericObject({
+    x:roadBackgroundImage.width + 250,
+    y: 380,
+    image: roadBackgroundImage
+  }),
   new GenericObject({
     x: 300,
     y: 10,
@@ -257,7 +269,8 @@ genericObjects = [
     x: 900,
     y: 230,
     image: bikeImage
-  })
+  }) 
+
 ];
 
 
