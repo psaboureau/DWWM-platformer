@@ -25,7 +25,7 @@ Player Class
 
 class Player {
   constructor() {
-    this.speed = 10;
+    this.speed = 5;
     this.position = {
       x: 100,
       y: 270,
@@ -35,7 +35,7 @@ class Player {
       y: 0,
     };
 
-    this.width = 66
+    this.width = 70
     this.height = 150;
     this.image = createImage(spriteStandRight)
     this.frames = 0
@@ -159,21 +159,27 @@ const treeImageSrc = './img/tree.png'
 const bikeImageSrc = './img/bike.png'
 const roadBackgroundImageSrc = './img/road_background.png'
 const treeRameshImageSrc = './img/tree_ramesh.png'
-
-
+const palmierImageSrc = './img/palmier.png'
+const shopImageSrc = './img/shop.png'
+const greenBackgroundImageSrc = './img/green_background.png'
+const roadMiddleImageSrc = './img/road_middle.png'
 
 let roadImage = createImage(roadImageSrc)
 let treeImage = createImage(treeImageSrc)
 let bikeImage = createImage(bikeImageSrc)
 let roadBackgroundImage = createImage(roadBackgroundImageSrc)
 let treeRameshImage = createImage(treeRameshImageSrc)
+let palmierImage = createImage(palmierImageSrc)
+let shopImage = createImage(shopImageSrc)
+let greenBackgroundImage = createImage(greenBackgroundImageSrc)
+let roadMiddleImage = createImage(roadMiddleImageSrc)
 
 let player = new Player();
 
 
 let platforms = [];
 let genericObjects = []; 
-
+let foregroundObjects = [];
 
 
 let lastKey;
@@ -202,11 +208,17 @@ Init
 
 function init() {
 
- roadImage = createImage(roadImageSrc)
- treeImage = createImage(treeImageSrc)
-bikeImage = createImage(bikeImageSrc)
-roadBackgroundImage = createImage(roadBackgroundImageSrc)
-treeRameshImage = createImage(treeRameshImageSrc)
+  roadImage = createImage(roadImageSrc)
+  treeImage = createImage(treeImageSrc)
+  bikeImage = createImage(bikeImageSrc)
+  roadBackgroundImage = createImage(roadBackgroundImageSrc)
+  treeRameshImage = createImage(treeRameshImageSrc)
+  palmierImage = createImage(palmierImageSrc)
+  shopImage = createImage(shopImageSrc)
+  greenBackgroundImage = createImage(greenBackgroundImageSrc)
+  roadMiddleImage = createImage(roadMiddleImageSrc)
+
+
 
 player = new Player()
 
@@ -231,7 +243,20 @@ player = new Player()
       */
 
 
+      
+
 genericObjects = [
+  new GenericObject({
+    x: 0,
+    y: 0,
+    image: greenBackgroundImage
+  }),
+  new GenericObject({
+    x: 130,
+    y: 0,
+    image: shopImage
+  }),
+  
   new GenericObject({
     x:0,
     y: 380,
@@ -244,36 +269,49 @@ genericObjects = [
   }),
   new GenericObject({
     x: 200,
-    y: 10,
-    image: treeRameshImage
+    y: 150,
+    image: bikeImage
   }),
+ ,
   new GenericObject({
     x: 10,
-    y: 40,
+    y: 50,
     image: treeImage
   }),
   new GenericObject({
-    x: 500,
-    y: 150,
+    x: 550,
+    y: 75,
     image: treeImage
-  }),
+  }), 
   new GenericObject({
-    x: 400,
-    y: 230,
-    image: bikeImage
-  }),
-  new GenericObject({
-    x: 700,
-    y: 280,
-    image: bikeImage
-  }),
-  new GenericObject({
-    x: 900,
-    y: 230,
-    image: bikeImage
-  }) 
+    x: 665, y: 380, image: roadMiddleImage
+  })
+
 
 ];
+
+
+foregroundObjects = [
+  ,  new GenericObject({
+    x: 250,
+    y: 490,
+    image: palmierImage
+  }),
+  new GenericObject({
+    x: 120,
+    y: 500,
+    image: palmierImage
+  }),  new GenericObject({
+    x: 200,
+    y: 520,
+    image: palmierImage
+  })
+  , 
+  new GenericObject({
+    x: 550, y: 540, image: palmierImage
+  })
+]
+
 
 
 scrollOffset = 0;
@@ -321,6 +359,10 @@ function animate() {
     platform.draw();
   });
 
+  foregroundObjects.forEach((foregroundObject) => {
+    foregroundObject.draw()
+  })
+
   player.update();
 
 
@@ -348,6 +390,9 @@ function animate() {
       genericObjects.forEach((genericObject) => {
         genericObject.position.x -= player.speed;
       })
+      foregroundObjects.forEach((foregroundObject) => {
+        foregroundObject.position.x -= player.speed;
+      })
     } else if (keys.left.pressed && scrollOffset > 0) {
       scrollOffset -= player.speed;
       platforms.forEach((platform) => {
@@ -355,6 +400,9 @@ function animate() {
       });
       genericObjects.forEach((genericObject) => {
         genericObject.position.x += player.speed;
+      });
+      foregroundObjects.forEach((foregroundObject) => {
+        foregroundObject.position.x += player.speed;
       })
     }
   }
