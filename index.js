@@ -291,6 +291,9 @@ genericObjects = [
 ];
 
 
+// Art update
+
+
 foregroundObjects = [
   ,  new GenericObject({
     x: 250,
