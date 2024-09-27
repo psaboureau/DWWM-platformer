@@ -3,6 +3,7 @@ const spriteRunLeft = './img/animation/spriteRunLeft.png';
 const spriteRunRight = './img/animation/spriteRunRight.png';
 const spriteStandLeft = './img/animation/spriteStandLeft.png';
 const spriteStandRight = './img/animation/spriteStandRight.png';
+const catAnimation = './img/catAnimation.png';
 
 const canvas = document.querySelector("canvas");
 
@@ -94,6 +95,46 @@ class Player {
 }
 
 
+class Cat {
+  constructor({ x, y }) {
+    this.position = {
+      x: x, 
+      y: y,
+    };
+    this.width = 39;  // Width of each frame in the sprite sheet
+    this.height = 30; // Height of each frame in the sprite sheet
+    this.sprites = createImage(catAnimation); // Load the sprite sheet
+    this.frames = 0;  // Track the current animation frame
+    this.totalFrames = 8; // Total number of frames in the sprite sheet
+  }
+
+  draw() {
+    // Draw the current frame of the animation
+    c.drawImage(
+      this.sprites,
+      this.width * this.frames, // x position on the sprite sheet (crop x)
+      0,  // y position on the sprite sheet (crop y)
+      this.width, // Crop width (each frame's width)
+      this.height, // Crop height (each frame's height)
+      this.position.x, // x position to draw on the canvas
+      this.position.y, // y position to draw on the canvas
+      this.width,  // Scale the width on the canvas
+      this.height  // Scale the height on the canvas
+    );
+  }
+
+  update() {
+    this.frames++;  // Increment the frame counter
+
+    // Loop the animation once it reaches the last frame
+    if (this.frames >= 7 ) {
+      this.frames = 0;  // Reset back to the first frame
+    }
+
+    this.draw(); // Call draw to render the current frame
+  }
+}
+
 
 
 /*
@@ -163,6 +204,14 @@ const palmierImageSrc = './img/palmier.png'
 const shopImageSrc = './img/shop.png'
 const greenBackgroundImageSrc = './img/green_background.png'
 const roadMiddleImageSrc = './img/road_middle.png'
+const grassImageSrc = './img/grass.png'
+const flowerImageSrc = './img/flower.png'
+const redFlowerImageSrc = './img/red_flower.png'
+const truckImageSrc = './img/truck.png'
+const redTruckImageSrc = './img/truck_red.png'
+const redlightImageSrc = './img/redlight.png'
+const panelImageSrc = './img/panel.png'
+
 
 let roadImage = createImage(roadImageSrc)
 let treeImage = createImage(treeImageSrc)
@@ -173,8 +222,16 @@ let palmierImage = createImage(palmierImageSrc)
 let shopImage = createImage(shopImageSrc)
 let greenBackgroundImage = createImage(greenBackgroundImageSrc)
 let roadMiddleImage = createImage(roadMiddleImageSrc)
+let grassImage = createImage(grassImageSrc)
+let flowerImage = createImage(flowerImageSrc)
+let redFlowerImage = createImage(redFlowerImageSrc)
+let truckImage = createImage(truckImageSrc)
+let redTruckImage = createImage(redTruckImageSrc)
+let redlightImage = createImage(redlightImageSrc)
+let panelImage = createImage(panelImageSrc)
 
 let player = new Player();
+let cat = new Cat({x: 100, y: 300});
 
 
 let platforms = [];
@@ -217,10 +274,16 @@ function init() {
   shopImage = createImage(shopImageSrc)
   greenBackgroundImage = createImage(greenBackgroundImageSrc)
   roadMiddleImage = createImage(roadMiddleImageSrc)
-
-
+  grassImage = createImage(grassImageSrc)
+  flowerImage = createImage(flowerImageSrc)
+  redFlowerImage = createImage(redFlowerImageSrc)
+  truckImage = createImage(truckImageSrc)
+  redTruckImage = createImage(redTruckImageSrc)
+  redlightImage = createImage(redlightImageSrc)
+  panelImage = createImage(panelImageSrc)
 
 player = new Player()
+cat = new Cat({x: 100, y: 200})
 
       /*
 
@@ -247,58 +310,95 @@ player = new Player()
 
 genericObjects = [
   new GenericObject({
-    x: 0,
-    y: 0,
-    image: greenBackgroundImage
+    x: 0, y: 0, image: greenBackgroundImage
   }),
   new GenericObject({
-    x: 130,
-    y: 0,
-    image: shopImage
+    x: 130, y: 0, image: shopImage
   }),
   
   new GenericObject({
-    x:0,
-    y: 380,
-    image: roadBackgroundImage
+    x:0, y: 380, image: roadBackgroundImage
   }),  
   new GenericObject({
-    x:roadBackgroundImage.width + 250,
-    y: 380,
-    image: roadBackgroundImage
+    x:roadBackgroundImage.width + 250, y: 380, image: roadBackgroundImage
   }),
   new GenericObject({
-    x: 200,
-    y: 150,
-    image: bikeImage
+    x: 200, y: 150, image: bikeImage
   }),
  ,
   new GenericObject({
-    x: 10,
-    y: 50,
-    image: treeImage
+    x: 10, y: 50, image: treeImage
   }),
   new GenericObject({
-    x: 550,
-    y: 75,
-    image: treeImage
+    x: 550, y: 75, image: treeImage
   }), 
   new GenericObject({
     x: 665, y: 380, image: roadMiddleImage
+  }),
+  new GenericObject({
+    x: 200, y: 300, image: grassImage
+  }),
+  new GenericObject({
+    x: 0, y: 300, image: grassImage
+  }),
+  new GenericObject({
+    x: 400, y: 300, image: grassImage
+  }),
+  new GenericObject({
+    x: 320, y: 220, image: grassImage
+  }),
+  new GenericObject({
+    x: 120, y: 220, image: grassImage
+  }),
+  new GenericObject({
+    x: 600, y: 300, image: grassImage
+  }),
+  new GenericObject({
+    x: 800, y: 300, image: grassImage
+  }),
+  new GenericObject({
+    x: 700, y: 200, image: grassImage
+  }),
+  new GenericObject({
+    x: 900, y: 200, image: grassImage
+  }),
+  new GenericObject({
+    x: 1100, y: 200, image: grassImage
+  }),
+  new GenericObject({
+    x: 1000, y: 300, image: grassImage
+  }),
+  new GenericObject({
+    x: 930, y: 300, image: flowerImage
+  }),
+  new GenericObject({
+    x: 530, y: 250, image: flowerImage
+  }),
+  new GenericObject({
+    x: 210, y: 245, image: redFlowerImage
+  }),
+  new GenericObject({
+    x: 610, y: 240, image: redlightImage
+  }),
+  new GenericObject({
+    x: 710, y: 255, image: panelImage
   })
-
 
 ];
 
 
-// Art update
+// Foreground
 
 
 foregroundObjects = [
-  ,  new GenericObject({
+    new GenericObject({
     x: 250,
     y: 490,
     image: palmierImage
+  }),  new GenericObject({
+    x: 250,
+    y: 450,
+    image: truckImage
   }),
   new GenericObject({
     x: 120,
@@ -312,7 +412,12 @@ foregroundObjects = [
   , 
   new GenericObject({
     x: 550, y: 540, image: palmierImage
+  }),
+  new GenericObject({
+    x: 1040, y: 360, image: redTruckImage
   })
+
+
 ]
 
 
@@ -362,11 +467,14 @@ function animate() {
     platform.draw();
   });
 
+  //player.update();
+  // cat.update()
+
   foregroundObjects.forEach((foregroundObject) => {
     foregroundObject.draw()
   })
 
-  player.update();
+
 
 
 
@@ -384,7 +492,7 @@ function animate() {
 
 
 
-    // Platform & GenericObject Scrolling
+    // Platform & GenericObjects & foregroundObjects Scrolling
     if (keys.right.pressed) {
       scrollOffset += player.speed;
       platforms.forEach((platform) => {
