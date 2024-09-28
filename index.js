@@ -187,261 +187,108 @@ class GenericObject {
 
 
 
-
-
-
 /*
 
 createImage
 
 */
 
-
-
 function createImage(imageSrc) {
   const image = new Image();
   image.src = imageSrc;
   return image;
 }
-const roadImageSrc = './img/road.png'
-const treeImageSrc = './img/tree.png'
-const bikeImageSrc = './img/bike.png'
-const roadBackgroundImageSrc = './img/road_background.png'
-const treeRameshImageSrc = './img/tree_ramesh.png'
-const palmierImageSrc = './img/palmier.png'
-const shopImageSrc = './img/shop.png'
-const greenBackgroundImageSrc = './img/green_background.png'
-const roadMiddleImageSrc = './img/road_middle.png'
-const grassImageSrc = './img/grass.png'
-const flowerImageSrc = './img/flower.png'
-const redFlowerImageSrc = './img/red_flower.png'
-const truckImageSrc = './img/truck.png'
-const redTruckImageSrc = './img/truck_red.png'
-const redlightImageSrc = './img/redlight.png'
-const panelImageSrc = './img/panel.png'
 
+// Object to hold preloaded images without "Src" in the names
+const images = {
+  roadImage: createImage('./img/road.png'),
+  treeImage: createImage('./img/tree.png'),
+  bikeImage: createImage('./img/bike.png'),
+  roadBackgroundImage: createImage('./img/road_background.png'),
+  treeRameshImage: createImage('./img/tree_ramesh.png'),
+  palmierImage: createImage('./img/palmier.png'),
+  shopImage: createImage('./img/shop.png'),
+  greenBackgroundImage: createImage('./img/green_background.png'),
+  roadMiddleImage: createImage('./img/road_middle.png'),
+  grassImage: createImage('./img/grass.png'),
+  flowerImage: createImage('./img/flower.png'),
+  redFlowerImage: createImage('./img/red_flower.png'),
+  truckImage: createImage('./img/truck.png'),
+  redTruckImage: createImage('./img/truck_red.png'),
+  redlightImage: createImage('./img/redlight.png'),
+  panelImage: createImage('./img/panel.png')
+};
 
-let roadImage = createImage(roadImageSrc)
-let treeImage = createImage(treeImageSrc)
-let bikeImage = createImage(bikeImageSrc)
-let roadBackgroundImage = createImage(roadBackgroundImageSrc)
-let treeRameshImage = createImage(treeRameshImageSrc)
-let palmierImage = createImage(palmierImageSrc)
-let shopImage = createImage(shopImageSrc)
-let greenBackgroundImage = createImage(greenBackgroundImageSrc)
-let roadMiddleImage = createImage(roadMiddleImageSrc)
-let grassImage = createImage(grassImageSrc)
-let flowerImage = createImage(flowerImageSrc)
-let redFlowerImage = createImage(redFlowerImageSrc)
-let truckImage = createImage(truckImageSrc)
-let redTruckImage = createImage(redTruckImageSrc)
-let redlightImage = createImage(redlightImageSrc)
-let panelImage = createImage(panelImageSrc)
-
+// Initialize player and other elements
 let player = new Player();
 let cat = new Cat({ x: 300, y: 200, spriteSrc: catAnimation });
-
 let cat2 = new Cat({ x: 300, y: 200, spriteSrc: cat2Animation });
 
-
-
-
 let platforms = [];
-let genericObjects = []; 
+let genericObjects = [];
 let foregroundObjects = [];
-
 
 let lastKey;
 const keys = {
-  right: {
-    pressed: false,
-  },
-  left: {
-    pressed: false,
-  },
+  right: { pressed: false },
+  left: { pressed: false },
 };
 
 // scrollOffset = win condition = player reach end of screen
 let scrollOffset = 0;
 
-
-
-
-/*
-
-Init
-
-*/
-
-
-
+/* Init function */
 function init() {
+  // Initialize the player and cat objects
+  player = new Player();
+  cat = new Cat({ x: 300, y: 200, spriteSrc: catAnimation });
+  cat2 = new Cat({ x: 500, y: 200, spriteSrc: cat2Animation });
 
-  roadImage = createImage(roadImageSrc)
-  treeImage = createImage(treeImageSrc)
-  bikeImage = createImage(bikeImageSrc)
-  roadBackgroundImage = createImage(roadBackgroundImageSrc)
-  treeRameshImage = createImage(treeRameshImageSrc)
-  palmierImage = createImage(palmierImageSrc)
-  shopImage = createImage(shopImageSrc)
-  greenBackgroundImage = createImage(greenBackgroundImageSrc)
-  roadMiddleImage = createImage(roadMiddleImageSrc)
-  grassImage = createImage(grassImageSrc)
-  flowerImage = createImage(flowerImageSrc)
-  redFlowerImage = createImage(redFlowerImageSrc)
-  truckImage = createImage(truckImageSrc)
-  redTruckImage = createImage(redTruckImageSrc)
-  redlightImage = createImage(redlightImageSrc)
-  panelImage = createImage(panelImageSrc)
+  // Initialize platforms
+  platforms = [
+    new Platform({ x: 0, y: 420, image: images.roadImage }),
+    new Platform({ x: images.roadImage.width + 250, y: 420, image: images.roadImage })
+  ];
 
-player = new Player()
-cat = new Cat({ x: 300, y: 200, spriteSrc: catAnimation });
-cat2 = new Cat({ x: 500, y: 200, spriteSrc: cat2Animation });
+  // Initialize generic objects (background elements)
+  genericObjects = [
+    new GenericObject({ x: 0, y: 0, image: images.greenBackgroundImage }),
+    new GenericObject({ x: 130, y: 0, image: images.shopImage }),
+    new GenericObject({ x: 0, y: 380, image: images.roadBackgroundImage }),
+    new GenericObject({ x: images.roadBackgroundImage.width + 250, y: 380, image: images.roadBackgroundImage }),
+    new GenericObject({ x: 200, y: 150, image: images.bikeImage }),
+    new GenericObject({ x: 10, y: 50, image: images.treeImage }),
+    new GenericObject({ x: 550, y: 75, image: images.treeImage }),
+    new GenericObject({ x: 665, y: 380, image: images.roadMiddleImage }),
+    new GenericObject({ x: 200, y: 300, image: images.grassImage }),
+    new GenericObject({ x: 0, y: 300, image: images.grassImage }),
+    new GenericObject({ x: 400, y: 300, image: images.grassImage }),
+    new GenericObject({ x: 320, y: 220, image: images.grassImage }),
+    new GenericObject({ x: 120, y: 220, image: images.grassImage }),
+    new GenericObject({ x: 600, y: 300, image: images.grassImage }),
+    new GenericObject({ x: 800, y: 300, image: images.grassImage }),
+    new GenericObject({ x: 700, y: 200, image: images.grassImage }),
+    new GenericObject({ x: 900, y: 200, image: images.grassImage }),
+    new GenericObject({ x: 1100, y: 200, image: images.grassImage }),
+    new GenericObject({ x: 1000, y: 300, image: images.grassImage }),
+    new GenericObject({ x: 930, y: 300, image: images.flowerImage }),
+    new GenericObject({ x: 530, y: 250, image: images.flowerImage }),
+    new GenericObject({ x: 210, y: 245, image: images.redFlowerImage }),
+    new GenericObject({ x: 610, y: 240, image: images.redlightImage }),
+    new GenericObject({ x: 710, y: 255, image: images.panelImage })
+  ];
 
+  // Initialize foreground objects
+  foregroundObjects = [
+    new GenericObject({ x: 250, y: 490, image: images.palmierImage }),
+    new GenericObject({ x: 250, y: 450, image: images.truckImage }),
+    new GenericObject({ x: 120, y: 500, image: images.palmierImage }),
+    new GenericObject({ x: 200, y: 520, image: images.palmierImage }),
+    new GenericObject({ x: 550, y: 540, image: images.palmierImage }),
+    new GenericObject({ x: 1040, y: 360, image: images.redTruckImage })
+  ];
 
-
-
-      /*
-
-      Init Platforms
-
-      */
-
-
- platforms = [
-  new Platform({ x: 0, y: 420, image: roadImage }),
-  new Platform({ x: roadImage.width + 250, y: 420, image: roadImage })
-  
-];
-
-
-      /* 
-
-      Init Generic Object
-
-      */
-
-
-      
-
-genericObjects = [
-  new GenericObject({
-    x: 0, y: 0, image: greenBackgroundImage
-  }),
-  new GenericObject({
-    x: 130, y: 0, image: shopImage
-  }),
-  
-  new GenericObject({
-    x:0, y: 380, image: roadBackgroundImage
-  }),  
-  new GenericObject({
-    x:roadBackgroundImage.width + 250, y: 380, image: roadBackgroundImage
-  }),
-  new GenericObject({
-    x: 200, y: 150, image: bikeImage
-  }),
- ,
-  new GenericObject({
-    x: 10, y: 50, image: treeImage
-  }),
-  new GenericObject({
-    x: 550, y: 75, image: treeImage
-  }), 
-  new GenericObject({
-    x: 665, y: 380, image: roadMiddleImage
-  }),
-  new GenericObject({
-    x: 200, y: 300, image: grassImage
-  }),
-  new GenericObject({
-    x: 0, y: 300, image: grassImage
-  }),
-  new GenericObject({
-    x: 400, y: 300, image: grassImage
-  }),
-  new GenericObject({
-    x: 320, y: 220, image: grassImage
-  }),
-  new GenericObject({
-    x: 120, y: 220, image: grassImage
-  }),
-  new GenericObject({
-    x: 600, y: 300, image: grassImage
-  }),
-  new GenericObject({
-    x: 800, y: 300, image: grassImage
-  }),
-  new GenericObject({
-    x: 700, y: 200, image: grassImage
-  }),
-  new GenericObject({
-    x: 900, y: 200, image: grassImage
-  }),
-  new GenericObject({
-    x: 1100, y: 200, image: grassImage
-  }),
-  new GenericObject({
-    x: 1000, y: 300, image: grassImage
-  }),
-  new GenericObject({
-    x: 930, y: 300, image: flowerImage
-  }),
-  new GenericObject({
-    x: 530, y: 250, image: flowerImage
-  }),
-  new GenericObject({
-    x: 210, y: 245, image: redFlowerImage
-  }),
-  new GenericObject({
-    x: 610, y: 240, image: redlightImage
-  }),
-  new GenericObject({
-    x: 710, y: 255, image: panelImage
-  })
-
-];
-
-
-// Foreground
-
-
-foregroundObjects = [
-    new GenericObject({
-    x: 250,
-    y: 490,
-    image: palmierImage
-  }),  new GenericObject({
-    x: 250,
-    y: 450,
-    image: truckImage
-  }),
-  new GenericObject({
-    x: 120,
-    y: 500,
-    image: palmierImage
-  }),  new GenericObject({
-    x: 200,
-    y: 520,
-    image: palmierImage
-  })
-  , 
-  new GenericObject({
-    x: 550, y: 540, image: palmierImage
-  }),
-  new GenericObject({
-    x: 1040, y: 360, image: redTruckImage
-  })
-
-
-]
-
-
-
-scrollOffset = 0;
-
-
-
+  scrollOffset = 0;
 }
 
 /*
