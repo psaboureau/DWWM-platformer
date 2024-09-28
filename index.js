@@ -8,21 +8,12 @@ const cat2Animation = './img/animation/cat2Animation.png';
 
 
 const canvas = document.querySelector("canvas");
-
 const c = canvas.getContext("2d");
-
 canvas.width = 1024;
 canvas.height = 576;
-
 const gravity = 0.5;
 
 
-
-/*
-
-Player Class
-
-*/
 
 
 
@@ -95,6 +86,10 @@ class Player {
     } 
   }
 }
+
+
+
+
 
 class Cat {
   constructor({x, y, spriteSrc}) {
@@ -221,9 +216,8 @@ const images = {
 
 // Initialize player and other elements
 let player = new Player();
-let cat = new Cat({ x: 300, y: 200, spriteSrc: catAnimation });
-let cat2 = new Cat({ x: 300, y: 200, spriteSrc: cat2Animation });
 
+let cats = []
 let platforms = [];
 let genericObjects = [];
 let foregroundObjects = [];
@@ -237,20 +231,26 @@ const keys = {
 // scrollOffset = win condition = player reach end of screen
 let scrollOffset = 0;
 
-/* Init function */
 function init() {
+
   // Initialize the player and cat objects
   player = new Player();
-  cat = new Cat({ x: 300, y: 200, spriteSrc: catAnimation });
-  cat2 = new Cat({ x: 500, y: 200, spriteSrc: cat2Animation });
+  
 
-  // Initialize platforms
+    cats = [
+   new Cat({ x: 300, y: 200, spriteSrc: catAnimation }),
+  new Cat({ x: 500, y: 200, spriteSrc: cat2Animation })
+    ]
+
+
+    
   platforms = [
     new Platform({ x: 0, y: 420, image: images.roadImage }),
     new Platform({ x: images.roadImage.width + 250, y: 420, image: images.roadImage })
   ];
 
-  // Initialize generic objects (background elements)
+ 
+
   genericObjects = [
     new GenericObject({ x: 0, y: 0, image: images.greenBackgroundImage }),
     new GenericObject({ x: 130, y: 0, image: images.shopImage }),
@@ -278,7 +278,8 @@ function init() {
     new GenericObject({ x: 710, y: 255, image: images.panelImage })
   ];
 
-  // Initialize foreground objects
+
+
   foregroundObjects = [
     new GenericObject({ x: 250, y: 490, image: images.palmierImage }),
     new GenericObject({ x: 250, y: 450, image: images.truckImage }),
@@ -291,30 +292,7 @@ function init() {
   scrollOffset = 0;
 }
 
-/*
 
-End Init
-
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-  ANIMATE
-
-
-*/
 
 
 function animate() {
@@ -331,8 +309,10 @@ function animate() {
   });
 
   player.update();
-  cat.update()
-  cat2.update()
+  cats.forEach((cat) => {
+    cat.update();
+  })
+
 
   foregroundObjects.forEach((foregroundObject) => {
     foregroundObject.draw()
@@ -359,8 +339,10 @@ function animate() {
     // Platform & GenericObjects & foregroundObjects Scrolling
     if (keys.right.pressed) {
       scrollOffset += player.speed;
-      cat.position.x -= player.speed;
-      cat2.position.x -= player.speed;
+      cats.forEach((cat) => {
+        cat.position.x -= player.speed;
+      })
+
       platforms.forEach((platform) => {
         platform.position.x -= player.speed;
       });
@@ -372,8 +354,9 @@ function animate() {
       })
     } else if (keys.left.pressed && scrollOffset > 0) {
       scrollOffset -= player.speed;
-      cat.position.x += player.speed;
-      cat2.position.x += player.speed;
+      cats.forEach((cat) => {
+        cat.position.x += player.speed;
+      })
       platforms.forEach((platform) => {
         platform.position.x += player.speed;
       });
