@@ -3,7 +3,7 @@ const spriteRunLeft = './img/animation/spriteRunLeft.png';
 const spriteRunRight = './img/animation/spriteRunRight.png';
 const spriteStandLeft = './img/animation/spriteStandLeft.png';
 const spriteStandRight = './img/animation/spriteStandRight.png';
-const catAnimation = './img/catAnimation.png';
+const catAnimation = './img/animation/catAnimation.png';
 
 const canvas = document.querySelector("canvas");
 
@@ -94,18 +94,19 @@ class Player {
   }
 }
 
-
 class Cat {
-  constructor({ x, y }) {
+  constructor() {
     this.position = {
-      x: x, 
-      y: y,
+      x: 300,
+      y: 200,
     };
-    this.width = 39;  // Width of each frame in the sprite sheet
-    this.height = 30; // Height of each frame in the sprite sheet
+    this.width = 80;  // Width of each frame in the sprite sheet
+    this.height = 62; // Height of each frame in the sprite sheet
     this.sprites = createImage(catAnimation); // Load the sprite sheet
     this.frames = 0;  // Track the current animation frame
-    this.totalFrames = 8; // Total number of frames in the sprite sheet
+    this.totalFrames = 40; // Total number of frames in the sprite sheet
+    this.frameInterval = 8; // Change this value to control the speed (higher = slower)
+    this.frameTimer = 0; // Timer to track frame changes
   }
 
   draw() {
@@ -124,11 +125,16 @@ class Cat {
   }
 
   update() {
-    this.frames++;  // Increment the frame counter
+    // Increment the frameTimer and update frame only if frameTimer exceeds frameInterval
+    this.frameTimer++;
+    if (this.frameTimer >= this.frameInterval) {
+      this.frames++;  // Increment the frame counter
+      this.frameTimer = 0; // Reset frameTimer
 
-    // Loop the animation once it reaches the last frame
-    if (this.frames >= 7 ) {
-      this.frames = 0;  // Reset back to the first frame
+      // Loop the animation once it reaches the last frame
+      if (this.frames >= this.totalFrames) {
+        this.frames = 0;  // Reset back to the first frame
+      }
     }
 
     this.draw(); // Call draw to render the current frame
@@ -231,7 +237,10 @@ let redlightImage = createImage(redlightImageSrc)
 let panelImage = createImage(panelImageSrc)
 
 let player = new Player();
-let cat = new Cat({x: 100, y: 300});
+let cat = new Cat();
+
+
+let cats = [];
 
 
 let platforms = [];
@@ -283,7 +292,10 @@ function init() {
   panelImage = createImage(panelImageSrc)
 
 player = new Player()
-cat = new Cat({x: 100, y: 200})
+// cat = new Cat()
+
+cats = [new Cat()]
+
 
       /*
 
@@ -467,8 +479,8 @@ function animate() {
     platform.draw();
   });
 
-  //player.update();
-  // cat.update()
+  player.update();
+  cat.update()
 
   foregroundObjects.forEach((foregroundObject) => {
     foregroundObject.draw()
@@ -495,6 +507,7 @@ function animate() {
     // Platform & GenericObjects & foregroundObjects Scrolling
     if (keys.right.pressed) {
       scrollOffset += player.speed;
+      cat.position.x -= player.speed;
       platforms.forEach((platform) => {
         platform.position.x -= player.speed;
       });
@@ -506,6 +519,7 @@ function animate() {
       })
     } else if (keys.left.pressed && scrollOffset > 0) {
       scrollOffset -= player.speed;
+      cat.position.x += player.speed;
       platforms.forEach((platform) => {
         platform.position.x += player.speed;
       });
