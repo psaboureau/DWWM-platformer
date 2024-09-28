@@ -4,6 +4,8 @@ const spriteRunRight = './img/animation/spriteRunRight.png';
 const spriteStandLeft = './img/animation/spriteStandLeft.png';
 const spriteStandRight = './img/animation/spriteStandRight.png';
 const catAnimation = './img/animation/catAnimation.png';
+const cat2Animation = './img/animation/cat2Animation.png';
+
 
 const canvas = document.querySelector("canvas");
 
@@ -95,14 +97,14 @@ class Player {
 }
 
 class Cat {
-  constructor() {
+  constructor({x, y, spriteSrc}) {
     this.position = {
-      x: 300,
-      y: 200,
+      x,
+      y
     };
     this.width = 80;  // Width of each frame in the sprite sheet
     this.height = 62; // Height of each frame in the sprite sheet
-    this.sprites = createImage(catAnimation); // Load the sprite sheet
+    this.sprites = createImage(spriteSrc); // Load the sprite sheet
     this.frames = 0;  // Track the current animation frame
     this.totalFrames = 40; // Total number of frames in the sprite sheet
     this.frameInterval = 8; // Change this value to control the speed (higher = slower)
@@ -237,10 +239,11 @@ let redlightImage = createImage(redlightImageSrc)
 let panelImage = createImage(panelImageSrc)
 
 let player = new Player();
-let cat = new Cat();
+let cat = new Cat({ x: 300, y: 200, spriteSrc: catAnimation });
+
+let cat2 = new Cat({ x: 300, y: 200, spriteSrc: cat2Animation });
 
 
-let cats = [];
 
 
 let platforms = [];
@@ -292,9 +295,10 @@ function init() {
   panelImage = createImage(panelImageSrc)
 
 player = new Player()
-// cat = new Cat()
+cat = new Cat({ x: 300, y: 200, spriteSrc: catAnimation });
+cat2 = new Cat({ x: 500, y: 200, spriteSrc: cat2Animation });
 
-cats = [new Cat()]
+
 
 
       /*
@@ -481,6 +485,7 @@ function animate() {
 
   player.update();
   cat.update()
+  cat2.update()
 
   foregroundObjects.forEach((foregroundObject) => {
     foregroundObject.draw()
@@ -508,6 +513,7 @@ function animate() {
     if (keys.right.pressed) {
       scrollOffset += player.speed;
       cat.position.x -= player.speed;
+      cat2.position.x -= player.speed;
       platforms.forEach((platform) => {
         platform.position.x -= player.speed;
       });
@@ -520,6 +526,7 @@ function animate() {
     } else if (keys.left.pressed && scrollOffset > 0) {
       scrollOffset -= player.speed;
       cat.position.x += player.speed;
+      cat2.position.x += player.speed;
       platforms.forEach((platform) => {
         platform.position.x += player.speed;
       });
