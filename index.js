@@ -191,7 +191,9 @@ function createImage(imageSrc) {
 
 // Object to hold preloaded images without "Src" in the names
 const images = {
+  firstRoadImage: createImage("./img/firstRoad.png"),
   roadImage: createImage("./img/road.png"),
+  firstRoadSurface: createImage("./img/firstRoadSurface.png"),
   treeImage: createImage("./img/tree.png"),
   bikeImage: createImage("./img/bike.png"),
   roadBackgroundImage: createImage("./img/road_background.png"),
@@ -207,7 +209,8 @@ const images = {
   redTruckImage: createImage("./img/truck_red.png"),
   redlightImage: createImage("./img/redlight.png"),
   panelImage: createImage("./img/panel.png"),
-  carImage: createImage("./img/car.png")
+  carImage: createImage("./img/car.png"),
+  pizzaImage: createImage("./img/pizza.png")
 };
 
 // Initialize player and other elements
@@ -240,9 +243,9 @@ function init() {
   ];
 
   platforms = [
-    new Platform({ x: 0, y: 420, image: images.roadImage }),
+    new Platform({ x: 0, y: 420, image: images.firstRoadImage }),
     new Platform({
-      x: images.roadImage.width + 250,
+      x: images.roadImage.width + 121,
       y: 420,
       image: images.roadImage,
     }),
@@ -250,27 +253,28 @@ function init() {
 
   genericObjects = [
     new GenericObject({ x: 0, y: 0, image: images.greenBackgroundImage }),
-    new GenericObject({ x: 130, y: 0, image: images.shopImage }),
-    new GenericObject({ x: 0, y: 380, image: images.roadBackgroundImage }),
+    new GenericObject({ x: 30, y: 0, image: images.shopImage }),
+    new GenericObject({ x: 668, y: 380, image: images.roadMiddleImage }),
+    new GenericObject({ x: 0, y: 380, image: images.firstRoadSurface }),
     new GenericObject({
-      x: images.roadBackgroundImage.width + 250,
+      x: images.roadBackgroundImage.width + 82,
       y: 380,
       image: images.roadBackgroundImage,
     }),
-    new GenericObject({ x: 200, y: 145, image: images.bikeImage }),
+    new GenericObject({ x: 190, y: 145, image: images.bikeImage }),
     new GenericObject({ x: 10, y: 50, image: images.treeImage }),
     new GenericObject({ x: 550, y: 75, image: images.treeImage }),
-    new GenericObject({ x: 665, y: 380, image: images.roadMiddleImage }),
-    new GenericObject({x: 670, y: 50, image: images.carImage}),
+    new GenericObject({x: 670, y: 50, image: images.carImage}),    
+    new GenericObject({x: 830, y: -20, image: images.pizzaImage}),
 
   
     new GenericObject({ x: 120, y: 220, image: images.grassImage }),
     new GenericObject({ x: 320, y: 220, image: images.grassImage }),
     new GenericObject({ x: 400, y: 300, image: images.grassImage }),
     new GenericObject({ x: 700, y: 200, image: images.grassImage }),
-    new GenericObject({ x: 900, y: 200, image: images.grassImage }),
-    new GenericObject({ x: 1200, y: 200, image: images.grassImage }),
-    new GenericObject({ x: 1400, y: 220, image: images.grassImage }),
+    new GenericObject({ x: 900, y: 220, image: images.grassImage }),
+    new GenericObject({ x: 1100, y: 230, image: images.grassImage }),
+    new GenericObject({ x: 1300, y: 235, image: images.grassImage }),
 
 
 
