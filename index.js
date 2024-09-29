@@ -5,6 +5,8 @@ const spriteStandRight = "./img/animation/spriteStandRight.png";
 const catAnimation = "./img/animation/catAnimation.png";
 const cat2Animation = "./img/animation/cat2Animation.png";
 const catFaceAnimation = "./img/animation/catFaceAnimation.png";
+const catFace2Animation = "./img/animation/catFace2Animation.png";
+
 
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
@@ -205,6 +207,7 @@ const images = {
   redTruckImage: createImage("./img/truck_red.png"),
   redlightImage: createImage("./img/redlight.png"),
   panelImage: createImage("./img/panel.png"),
+  carImage: createImage("./img/car.png")
 };
 
 // Initialize player and other elements
@@ -229,9 +232,11 @@ function init() {
   player = new Player();
 
   cats = [
+    new Cat({x: 20, y: 227, spriteSrc: catFace2Animation, animationSpeed: 9}),
     new Cat({ x: 300, y: 200, spriteSrc: catAnimation , animationSpeed: 10}),
-    new Cat({ x: 490, y: 210, spriteSrc: cat2Animation, animationSpeed: 10 }),
-    new Cat({x: 830, y: 320, spriteSrc: catFaceAnimation, animationSpeed: 8})
+    new Cat({ x: 500, y: 230, spriteSrc: cat2Animation, animationSpeed: 10 }),
+    new Cat({x: 850, y: 310, spriteSrc: catFaceAnimation, animationSpeed: 8}),
+ 
   ];
 
   platforms = [
@@ -256,9 +261,9 @@ function init() {
     new GenericObject({ x: 10, y: 50, image: images.treeImage }),
     new GenericObject({ x: 550, y: 75, image: images.treeImage }),
     new GenericObject({ x: 665, y: 380, image: images.roadMiddleImage }),
+    new GenericObject({x: 670, y: 50, image: images.carImage}),
 
-
-    
+  
     new GenericObject({ x: 120, y: 220, image: images.grassImage }),
     new GenericObject({ x: 320, y: 220, image: images.grassImage }),
     new GenericObject({ x: 400, y: 300, image: images.grassImage }),
@@ -275,9 +280,15 @@ function init() {
     new GenericObject({ x: 600, y: 300, image: images.grassImage }),
     new GenericObject({ x: 800, y: 300, image: images.grassImage }),
     new GenericObject({ x: 1000, y: 300, image: images.grassImage }),  
-    new GenericObject({ x: 1100, y: 300, image: images.grassImage }),
-    new GenericObject({ x: 1300, y: 300, image: images.grassImage }),
+    new GenericObject({ x: 1200, y: 300, image: images.grassImage }),
+    new GenericObject({ x: 1400, y: 300, image: images.grassImage }),
     new GenericObject({ x: 1640, y: 300, image: images.grassImage }),
+
+
+
+
+    new GenericObject({x : 620, y: 257, image: images.redlightImage}),
+    new GenericObject({x : 740, y: 210, image: images.panelImage})
 
   ];
 
