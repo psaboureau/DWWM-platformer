@@ -191,8 +191,8 @@ function createImage(imageSrc) {
 
 // Object to hold preloaded images without "Src" in the names
 const images = {
-  firstRoadImage: createImage("./img/firstRoad.png"),
-  roadImage: createImage("./img/road.png"),
+  road1Image: createImage("./img/firstRoad.png"),
+  road2Image: createImage("./img/road.png"),
   firstRoadSurface: createImage("./img/firstRoadSurface.png"),
   treeImage: createImage("./img/tree.png"),
   bikeImage: createImage("./img/bike.png"),
@@ -212,7 +212,8 @@ const images = {
   carImage: createImage("./img/car.png"),
   pizzaImage: createImage("./img/pizza.png"),
   drugstoreImage: createImage("./img/drugstore.png"),
-  camionetteImage: createImage("./img/camionette.png")
+  camionetteImage: createImage("./img/camionette.png"),
+  greenRoad1: createImage("./img/greenRoad1.png")
 };
 
 // Initialize player and other elements
@@ -245,24 +246,28 @@ function init() {
   ];
 
   platforms = [
-    new Platform({ x: 0, y: 420, image: images.firstRoadImage }),
+    new Platform({ x: 0, y: 420, image: images.road1Image }),
     new Platform({
-      x: images.roadImage.width + 121,
+      x: images.road2Image.width + 140,
       y: 420,
-      image: images.roadImage,
+      image: images.road2Image,
     }),
   ];
 
   genericObjects = [
     new GenericObject({ x: 0, y: 0, image: images.greenBackgroundImage }),
-    new GenericObject({ x: 30, y: 0, image: images.shopImage }),
+
     new GenericObject({ x: 668, y: 380, image: images.roadMiddleImage }),
+    new GenericObject({ x: 0, y: 456, image: images.greenRoad1}), 
     new GenericObject({ x: 0, y: 380, image: images.firstRoadSurface }),
     new GenericObject({
-      x: images.roadBackgroundImage.width + 82,
+      x: images.roadBackgroundImage.width + 98,
       y: 380,
       image: images.roadBackgroundImage,
+
     }),
+
+    new GenericObject({ x: 30, y: 0, image: images.shopImage }),
     new GenericObject({ x: 190, y: 145, image: images.bikeImage }),
     new GenericObject({ x: 10, y: 50, image: images.treeImage }),
     new GenericObject({ x: 550, y: 75, image: images.treeImage }),
@@ -301,7 +306,6 @@ function init() {
 
   foregroundObjects = [
     new GenericObject({ x: 250, y: 490, image: images.palmierImage }),
-    
     new GenericObject({ x: 250, y: 450, image: images.truckImage }),  
     new GenericObject({ x: 1040, y: 360, image: images.redTruckImage }),  
     new GenericObject({ x: 1400, y: 450, image: images.camionetteImage }),
@@ -327,11 +331,11 @@ function animate() {
     platform.draw();
   });
 
-  player.update();
+
   cats.forEach((cat) => {
     cat.update();
   });
-
+  player.update();
   foregroundObjects.forEach((foregroundObject) => {
     foregroundObject.draw();
   });
