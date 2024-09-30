@@ -213,7 +213,10 @@ const images = {
   camionetteImage: createImage("./img/camionette.png"),
   greenRoad1: createImage("./img/greenRoad1.png"),
   greenRoad2: createImage("./img/greenRoad2.png"),
-  houseImage: createImage("./img/house.png")
+  houseImage: createImage("./img/house.png"),
+  stopImage: createImage("./img/stop.png"),
+  bandeauImage: createImage("./img/bandeau.png"),
+  trainImage: createImage("./img/train.png")
 };
 
 // Initialize player and other elements
@@ -259,7 +262,7 @@ function init() {
 
   genericObjects = [
     new GenericObject({ x: 0, y: 0, image: images.greenBackgroundImage }),        // Background vert
-
+    new GenericObject({ x: 0, y: -22, image: images.trainImage}),
     new GenericObject({ x: 668, y: 380, image: images.roadMiddleImage }),         // Image 1st trou milieu
     new GenericObject({ x: 1620, y: 380, image: images.roadMiddleImage }),        // Image 2nd trou milieu
 
@@ -300,7 +303,10 @@ function init() {
     new GenericObject({ x: 620, y: 257, image: images.redlightImage }),
     new GenericObject({ x: 740, y: 210, image: images.panelImage }),
     new GenericObject({ x : 940, y: 455, image: images.greenRoad2}),
-    new GenericObject({ x: 1910, y: -28, image: images.houseImage})
+    new GenericObject({ x: 1910, y: -28, image: images.houseImage}),
+    new GenericObject({ x: 1600, y: 300, image: images.stopImage}),
+    new GenericObject({ x: 100, y: 220, image: images.bandeauImage})
+  
   ];
 
   foregroundObjects = [
@@ -314,6 +320,7 @@ function init() {
     new GenericObject({ x: 60, y: 460, image: images.palmierImage }),
     new GenericObject({ x: 200, y: 520, image: images.palmierImage }),
     new GenericObject({ x: 520, y: 510, image: images.palmierImage }),
+
   ];
 
   scrollOffset = 0;
