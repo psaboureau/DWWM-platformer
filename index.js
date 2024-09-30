@@ -210,7 +210,9 @@ const images = {
   redlightImage: createImage("./img/redlight.png"),
   panelImage: createImage("./img/panel.png"),
   carImage: createImage("./img/car.png"),
-  pizzaImage: createImage("./img/pizza.png")
+  pizzaImage: createImage("./img/pizza.png"),
+  drugstoreImage: createImage("./img/drugstore.png"),
+  camionetteImage: createImage("./img/camionette.png")
 };
 
 // Initialize player and other elements
@@ -266,6 +268,7 @@ function init() {
     new GenericObject({ x: 550, y: 75, image: images.treeImage }),
     new GenericObject({x: 670, y: 50, image: images.carImage}),    
     new GenericObject({x: 830, y: -20, image: images.pizzaImage}),
+    new GenericObject({x: 1500, y: -119, image: images.drugstoreImage}),
 
   
     new GenericObject({ x: 120, y: 220, image: images.grassImage }),
@@ -298,11 +301,14 @@ function init() {
 
   foregroundObjects = [
     new GenericObject({ x: 250, y: 490, image: images.palmierImage }),
-    new GenericObject({ x: 250, y: 450, image: images.truckImage }),
+    
+    new GenericObject({ x: 250, y: 450, image: images.truckImage }),  
+    new GenericObject({ x: 1040, y: 360, image: images.redTruckImage }),  
+    new GenericObject({ x: 1400, y: 450, image: images.camionetteImage }),
     new GenericObject({ x: 60, y: 460, image: images.palmierImage }),
     new GenericObject({ x: 200, y: 520, image: images.palmierImage }),
     new GenericObject({ x: 520, y: 510, image: images.palmierImage }),
-    new GenericObject({ x: 1040, y: 360, image: images.redTruckImage }),
+
   ];
 
   scrollOffset = 0;
