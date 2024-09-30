@@ -292,7 +292,7 @@ function init() {
 
 
     new GenericObject({ x: 620, y: 257, image: images.redlightImage }),
-    new GenericObject({ x: 740, y: 210, image: images.panelImage }),
+    new GenericObject({ x: 710, y: 210, image: images.panelImage }),
     new GenericObject({ x : 940, y: 455, image: images.greenRoad2}),
     new GenericObject({ x: 1910, y: -28, image: images.houseImage}),
     new GenericObject({ x: 1600, y: 300, image: images.stopImage}),
@@ -302,7 +302,7 @@ function init() {
     new GenericObject({ x: 2480, y: 150, image: images.car2Image }),
     new GenericObject({ x: 2570, y: 300, image: images.barriereImage}),
     new GenericObject({ x: 2770, y: 300, image: images.barriereImage}),
-    new GenericObject({ x: 2940, y: 285, image: images.letterBoxImage }),
+    new GenericObject({ x: 2935, y: 285, image: images.letterBoxImage }),
     new GenericObject({ x: 40, y: 290, image: images.redFlowerImage}),
     new GenericObject({ x: 240, y: 320, image: images.flowerImage}),
     new GenericObject({ x: 400, y: 280, image: images.redFlowerImage}),
