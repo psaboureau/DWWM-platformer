@@ -191,10 +191,12 @@ function createImage(imageSrc) {
 const images = {
   road1Image: createImage("./img/firstRoad.png"),
   road2Image: createImage("./img/road.png"),
+  road3Image: createImage("./img/lastRoadTrottoir.png"),
   firstRoadSurface: createImage("./img/firstRoadSurface.png"),
   treeImage: createImage("./img/tree.png"),
   bikeImage: createImage("./img/bike.png"),
   roadBackgroundImage: createImage("./img/road_background.png"),
+  lastRoadBackgroundImage: createImage("./img/last_road_background.png"),
   treeRameshImage: createImage("./img/tree_ramesh.png"),
   palmierImage: createImage("./img/palmier.png"),
   shopImage: createImage("./img/shop.png"),
@@ -216,7 +218,10 @@ const images = {
   houseImage: createImage("./img/house.png"),
   stopImage: createImage("./img/stop.png"),
   bandeauImage: createImage("./img/bandeau.png"),
-  trainImage: createImage("./img/train.png")
+  trainImage: createImage("./img/train.png"),
+  auxiliaImage: createImage("./img/auxilia.png"),
+  greenRoad3Image: createImage("./img/greenRoad3.png"),
+  lastRoadImage: createImage("./img/lastRoad.png")
 };
 
 // Initialize player and other elements
@@ -256,13 +261,13 @@ function init() {
     }), new Platform({
       x: images.road2Image.width * 2 + 318,
       y: 420,
-      image: images.road2Image,
+      image: images.road3Image,
     })
   ];
 
   genericObjects = [
     new GenericObject({ x: 0, y: 0, image: images.greenBackgroundImage }),        // Background vert
-    new GenericObject({ x: 0, y: -22, image: images.trainImage}),
+    new GenericObject({ x: -100, y: -22, image: images.trainImage}),
     new GenericObject({ x: 668, y: 380, image: images.roadMiddleImage }),         // Image 1st trou milieu
     new GenericObject({ x: 1620, y: 380, image: images.roadMiddleImage }),        // Image 2nd trou milieu
 
@@ -271,7 +276,7 @@ function init() {
     
     new GenericObject({ x: 0, y: 380, image: images.firstRoadSurface }),          // Trottoir 1s platform
     new GenericObject({ x: images.roadBackgroundImage.width + 98, y: 380, image: images.roadBackgroundImage }),  // Trottoir 2nd platform
-    new GenericObject({ x: images.roadBackgroundImage.width * 2 + 260, y: 380, image: images.roadBackgroundImage, }), // Trottoir 3rd platform 
+    new GenericObject({ x: images.roadBackgroundImage.width * 2 + 260, y: 380, image: images.lastRoadBackgroundImage, }), // Trottoir 3rd platform 
 
 
     new GenericObject({ x: 30, y: 0, image: images.shopImage }),
@@ -279,6 +284,7 @@ function init() {
     new GenericObject({ x: 10, y: 50, image: images.treeImage }),
     new GenericObject({ x: 550, y: 75, image: images.treeImage }),
     new GenericObject({ x: 670, y: 50, image: images.carImage }),
+    new GenericObject({ x: 2070, y: 50, image: images.carImage }),
     new GenericObject({ x: 830, y: -20, image: images.pizzaImage }),
     new GenericObject({ x: 1500, y: -119, image: images.drugstoreImage }),
 
@@ -305,14 +311,15 @@ function init() {
     new GenericObject({ x : 940, y: 455, image: images.greenRoad2}),
     new GenericObject({ x: 1910, y: -28, image: images.houseImage}),
     new GenericObject({ x: 1600, y: 300, image: images.stopImage}),
-    new GenericObject({ x: 100, y: 220, image: images.bandeauImage})
+    new GenericObject({ x: 100, y: 220, image: images.bandeauImage}),
+    new GenericObject({x: 2820, y: -20, image: images.auxiliaImage})
   
   ];
 
   foregroundObjects = [
     new GenericObject({ x: 0, y: 456, image: images.greenRoad1 }),                // Route verte 1st platform
     new GenericObject({ x : 940, y: 455, image: images.greenRoad2}),              // Route verte 2nd platform
-    new GenericObject({ x :1892, y: 455, image: images.greenRoad2}),              // Route verte 3rd platform
+    new GenericObject({ x :1892, y: 455, image: images.greenRoad3Image}),              // Route verte 3rd platform
     new GenericObject({ x: 250, y: 490, image: images.palmierImage }),
     new GenericObject({ x: 250, y: 450, image: images.truckImage }),
     new GenericObject({ x: 1040, y: 360, image: images.redTruckImage }),
@@ -450,6 +457,7 @@ function animate() {
     init();
   }
 }
+
 init();
 animate();
 
