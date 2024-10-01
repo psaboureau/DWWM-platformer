@@ -224,7 +224,8 @@ const images = {
   greenRoad3Image: createImage("./img/greenRoad3.png"),
   lastRoadImage: createImage("./img/lastRoad.png"),
   letterBoxImage: createImage("./img/letter_box.png"),
-  barriereImage: createImage("./img/barriere.png")
+  barriereImage: createImage("./img/barriere.png"),
+  endPanelImage: createImage("./img/end_panel.png")
 };
 
 // Initialize player and other elements
@@ -319,6 +320,7 @@ function init() {
     new GenericObject({ x: 2025, y: 345, image: images.flowerImage}),
     new GenericObject({ x: 2315, y: 285, image: images.redFlowerImage}),
     new GenericObject({ x: 2485, y: 315, image: images.flowerImage}),
+    new GenericObject({ x: 3600, y: 115, image: images.endPanelImage}),
  
   
   ]
@@ -363,7 +365,7 @@ function animate() {
   });
 
   // Player movement
-  if (keys.right.pressed && player.position.x < 400) {
+  if (keys.right.pressed && player.position.x < 400 && scrollOffset <= 3500) {
     player.velocity.x = player.speed;
   } else if (
     (keys.left.pressed && player.position.x > 100) ||
@@ -374,7 +376,7 @@ function animate() {
     player.velocity.x = 0;
 
     // Platform & GenericObjects & foregroundObjects Scrolling
-    if (keys.right.pressed) {
+    if (keys.right.pressed && scrollOffset <= 3500) {
       scrollOffset += player.speed;
       cats.forEach((cat) => {
         cat.position.x -= player.speed;
@@ -456,9 +458,11 @@ function animate() {
   }
 
   // Win condition
-  if (scrollOffset > 2000) {
-    console.log("you win");
-  }
+  // if (scrollOffset > 2000) {
+  //   console.log("you win");
+  // }
+
+    console.log(scrollOffset)
 
   // Lose condition
   if (player.position.y > canvas.height) {
