@@ -226,7 +226,7 @@ const images = {
   letterBoxImage: createImage("./img/letter_box.png"),
   barriereImage: createImage("./img/barriere.png"),
   endPanelImage: createImage("./img/end_panel.png"),
-  benchImage: createImage("./img/bench.png")
+  benchImage: createImage("./img/bench.png"),
 };
 
 // Initialize player and other elements
@@ -267,7 +267,7 @@ function init() {
       x: images.road2Image.width * 2 + 318,
       y: 420,
       image: images.road3Image,
-    })
+    }),
   ];
 
   genericObjects = [
@@ -325,7 +325,8 @@ function init() {
     new GenericObject({ x: 2315, y: 285, image: images.redFlowerImage }),
     new GenericObject({ x: 2485, y: 315, image: images.flowerImage }),
     new GenericObject({ x: 3600, y: 115, image: images.endPanelImage }),
-    new GenericObject({ x: 3600, y: 300, image: images.benchImage })
+    new GenericObject({ x: 3600, y: 300, image: images.benchImage }),
+    new GenericObject({ x: 3900, y: 300, image: images.benchImage })
 
 
   ]
@@ -486,20 +487,24 @@ Keys Listener
 window.addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
     case 81:
+    case 37:
       keys.left.pressed = true;
       lastKey = "left";
       break;
-    case 83:
-      break;
     case 68:
+    case 39:
       keys.right.pressed = true;
       lastKey = "right";
       break;
     case 90:
+    case 32:
+    case 38:
       if (player.velocity.y === 0) {
         player.velocity.y -= 14;
       }
-
+      break;
+    case 83:
+    case 40:
       break;
   }
 });
@@ -507,14 +512,19 @@ window.addEventListener("keydown", ({ keyCode }) => {
 window.addEventListener("keyup", ({ keyCode }) => {
   switch (keyCode) {
     case 81:
+    case 37:
       keys.left.pressed = false;
       break;
-    case 83:
-      break;
     case 68:
+    case 39:
       keys.right.pressed = false;
       break;
     case 90:
+    case 32:
+    case 38:
+      break;
+    case 83:
+    case 40:
       break;
   }
 });
