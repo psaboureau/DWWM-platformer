@@ -225,7 +225,8 @@ const images = {
   lastRoadImage: createImage("./img/lastRoad.png"),
   letterBoxImage: createImage("./img/letter_box.png"),
   barriereImage: createImage("./img/barriere.png"),
-  endPanelImage: createImage("./img/end_panel.png")
+  endPanelImage: createImage("./img/end_panel.png"),
+  benchImage: createImage("./img/bench.png")
 };
 
 // Initialize player and other elements
@@ -271,10 +272,12 @@ function init() {
 
   genericObjects = [
     new GenericObject({ x: 0, y: 0, image: images.greenBackgroundImage }),        // Background vert
-    new GenericObject({ x: -100, y: -22, image: images.trainImage}),
+
+    new GenericObject({ x: -100, y: -22, image: images.trainImage }),
+
     new GenericObject({ x: 668, y: 380, image: images.roadMiddleImage }),         // Image 1st trou milieu
     new GenericObject({ x: 1620, y: 380, image: images.roadMiddleImage }),        // Image 2nd trou milieu
-  
+
     new GenericObject({ x: 0, y: 380, image: images.firstRoadSurface }),          // Trottoir 1s platform
     new GenericObject({ x: images.roadBackgroundImage.width + 98, y: 380, image: images.roadBackgroundImage }),  // Trottoir 2nd platform
     new GenericObject({ x: images.roadBackgroundImage.width * 2 + 260, y: 380, image: images.lastRoadBackgroundImage, }), // Trottoir 3rd platform 
@@ -287,48 +290,50 @@ function init() {
 
     new GenericObject({ x: 830, y: -20, image: images.pizzaImage }),
     new GenericObject({ x: 1450, y: -119, image: images.drugstoreImage }),
-  
+
     new GenericObject({ x: 120, y: 220, image: images.grassImage }),
     new GenericObject({ x: 0, y: 300, image: images.grassImage }),
+    new GenericObject({ x: 2500, y: 130, image: images.grassImage }),
 
 
     new GenericObject({ x: 620, y: 257, image: images.redlightImage }),
     new GenericObject({ x: 710, y: 210, image: images.panelImage }),
-    new GenericObject({ x : 940, y: 455, image: images.greenRoad2}),
-    new GenericObject({ x: 1910, y: -28, image: images.houseImage}),
-    new GenericObject({ x: 1600, y: 300, image: images.stopImage}),
-    new GenericObject({ x: 100, y: 220, image: images.bandeauImage}),
-    new GenericObject({x: 2820, y: -20, image: images.auxiliaImage}),
+    new GenericObject({ x: 940, y: 455, image: images.greenRoad2 }),
+    new GenericObject({ x: 1910, y: -28, image: images.houseImage }),
+    new GenericObject({ x: 1600, y: 300, image: images.stopImage }),
+    new GenericObject({ x: 100, y: 220, image: images.bandeauImage }),
+    new GenericObject({ x: 2820, y: -20, image: images.auxiliaImage }),
     new GenericObject({ x: 2670, y: 150, image: images.car2Image }),
     new GenericObject({ x: 2480, y: 150, image: images.car2Image }),
-    new GenericObject({ x: 2570, y: 300, image: images.barriereImage}),
-    new GenericObject({ x: 2770, y: 300, image: images.barriereImage}),
+    new GenericObject({ x: 2570, y: 300, image: images.barriereImage }),
+    new GenericObject({ x: 2770, y: 300, image: images.barriereImage }),
     new GenericObject({ x: 2935, y: 285, image: images.letterBoxImage }),
-    new GenericObject({ x: 40, y: 290, image: images.redFlowerImage}),
-    new GenericObject({ x: 240, y: 320, image: images.flowerImage}),
-    new GenericObject({ x: 400, y: 280, image: images.redFlowerImage}),
-    new GenericObject({ x: 680, y: 280, image: images.flowerImage}),
-    new GenericObject({ x: 1000, y: 320, image: images.redFlowerImage}),
-    new GenericObject({ x: 680, y: 280, image: images.flowerImage}),
-    new GenericObject({ x: 1225, y: 275, image: images.redFlowerImage}),
-    new GenericObject({ x: 1450, y: 310, image: images.flowerImage}),
-    new GenericObject({ x: 1625, y: 275, image: images.redFlowerImage}),
-    new GenericObject({ x: 1675, y: 320, image: images.flowerImage}),
-    new GenericObject({ x: 1925, y: 275, image: images.redFlowerImage}),
-    new GenericObject({ x: 1825, y: 325, image: images.flowerImage}),
-    new GenericObject({ x: 2225, y: 275, image: images.redFlowerImage}),
-    new GenericObject({ x: 2025, y: 345, image: images.flowerImage}),
-    new GenericObject({ x: 2315, y: 285, image: images.redFlowerImage}),
-    new GenericObject({ x: 2485, y: 315, image: images.flowerImage}),
-    new GenericObject({ x: 3600, y: 115, image: images.endPanelImage}),
- 
-  
+    new GenericObject({ x: 40, y: 290, image: images.redFlowerImage }),
+    new GenericObject({ x: 240, y: 320, image: images.flowerImage }),
+    new GenericObject({ x: 400, y: 280, image: images.redFlowerImage }),
+    new GenericObject({ x: 680, y: 280, image: images.flowerImage }),
+    new GenericObject({ x: 1000, y: 320, image: images.redFlowerImage }),
+    new GenericObject({ x: 680, y: 280, image: images.flowerImage }),
+    new GenericObject({ x: 1225, y: 275, image: images.redFlowerImage }),
+    new GenericObject({ x: 1450, y: 310, image: images.flowerImage }),
+    new GenericObject({ x: 1625, y: 275, image: images.redFlowerImage }),
+    new GenericObject({ x: 1675, y: 320, image: images.flowerImage }),
+    new GenericObject({ x: 1925, y: 275, image: images.redFlowerImage }),
+    new GenericObject({ x: 1825, y: 325, image: images.flowerImage }),
+    new GenericObject({ x: 2225, y: 275, image: images.redFlowerImage }),
+    new GenericObject({ x: 2025, y: 345, image: images.flowerImage }),
+    new GenericObject({ x: 2315, y: 285, image: images.redFlowerImage }),
+    new GenericObject({ x: 2485, y: 315, image: images.flowerImage }),
+    new GenericObject({ x: 3600, y: 115, image: images.endPanelImage }),
+    new GenericObject({ x: 3600, y: 300, image: images.benchImage })
+
+
   ]
 
   foregroundObjects = [
     new GenericObject({ x: 0, y: 456, image: images.greenRoad1 }),                // Route verte 1st platform
-    new GenericObject({ x : 940, y: 455, image: images.greenRoad2}),              // Route verte 2nd platform
-    new GenericObject({ x :1892, y: 455, image: images.greenRoad3Image}),              // Route verte 3rd platform
+    new GenericObject({ x: 940, y: 455, image: images.greenRoad2 }),              // Route verte 2nd platform
+    new GenericObject({ x: 1892, y: 455, image: images.greenRoad3Image }),              // Route verte 3rd platform
     new GenericObject({ x: 250, y: 490, image: images.palmierImage }),
     new GenericObject({ x: 250, y: 450, image: images.truckImage }),
     new GenericObject({ x: 1040, y: 360, image: images.redTruckImage }),
@@ -365,7 +370,7 @@ function animate() {
   });
 
   // Player movement
-  if (keys.right.pressed && player.position.x < 400 && scrollOffset <= 3500) {
+  if (keys.right.pressed && player.position.x < 400 && scrollOffset <= 3045) {
     player.velocity.x = player.speed;
   } else if (
     (keys.left.pressed && player.position.x > 100) ||
@@ -376,7 +381,7 @@ function animate() {
     player.velocity.x = 0;
 
     // Platform & GenericObjects & foregroundObjects Scrolling
-    if (keys.right.pressed && scrollOffset <= 3500) {
+    if (keys.right.pressed && scrollOffset <= 3045) {
       scrollOffset += player.speed;
       cats.forEach((cat) => {
         cat.position.x -= player.speed;
@@ -413,7 +418,7 @@ function animate() {
     if (
       player.position.y + player.height <= platform.position.y &&
       player.position.y + player.height + player.velocity.y >=
-        platform.position.y &&
+      platform.position.y &&
       player.position.x + player.width >= platform.position.x &&
       player.position.x <= platform.position.x + platform.width
     ) {
@@ -462,7 +467,7 @@ function animate() {
   //   console.log("you win");
   // }
 
-    console.log(scrollOffset)
+
 
   // Lose condition
   if (player.position.y > canvas.height) {
